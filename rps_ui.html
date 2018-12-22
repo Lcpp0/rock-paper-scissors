@@ -1,0 +1,187 @@
+<!DOCTYPE hmtl>
+<html>
+<head>
+    <title>Rock Paper Scissors Game</title>
+</head>
+<body>
+    <div id="container">
+    </div>    
+</body>  
+<script>
+
+    let playerSelection
+    let message
+    let tieRounds= 0
+    let wonRounds = 0
+    let lostRounds = 0
+    let result = 0
+
+
+    const container = document.querySelector('#container')
+
+    const divScore = document.createElement('div')
+    divScore.setAttribute('id', 'divScore')
+    divScore.classList.add('divScore')
+    divScore.textContent = 'General Score'
+    container.appendChild(divScore)
+
+    const wonRoundsTitle = document.createElement('h3')
+    wonRoundsTitle.textContent = 'Won Rounds'
+    divScore.appendChild(wonRoundsTitle)
+
+    let playerScore = document.createElement('p')
+    playerScore.textContent = '0'
+    divScore.appendChild(playerScore)
+
+    const loseRoundsTitle = document.createElement('h3')
+    loseRoundsTitle.textContent = 'Lost Rounds'
+    divScore.appendChild(loseRoundsTitle)
+
+    let pcScore = document.createElement('p')
+    pcScore.textContent = '0'
+    divScore.appendChild(pcScore)
+
+    const tieRoundsTitle = document.createElement('h3')
+    tieRoundsTitle.textContent = 'Tied Rounds'
+    divScore.appendChild(tieRoundsTitle)
+
+    let tieScore = document.createElement('p')
+    tieScore.textContent = '0'
+    divScore.appendChild(tieScore)
+
+    let results = document.createElement('p')
+    results.textContent = 'Pick your play'
+    divScore.appendChild(results)
+
+    const btnRock = document.createElement('button')
+    btnRock.setAttribute('id', 'Rock')
+    btnRock.classList.add('btnRock')
+    btnRock.textContent = 'Rock'
+    container.appendChild(btnRock)
+
+    const btnPaper= document.createElement('button')
+    btnPaper.setAttribute('id', 'Paper')
+    btnPaper.classList.add('btnPaper')
+    btnPaper.textContent = 'Paper'
+    container.appendChild(btnPaper)
+
+    const btnScissors = document.createElement('button')
+    btnScissors.setAttribute('id', 'Scissors')
+    btnScissors.classList.add('btnScissors')
+    btnScissors.textContent = 'Scissors'
+    container.appendChild(btnScissors)
+
+    
+
+        const buttons = document.querySelectorAll('button');
+
+        // we use the .forEach method to iterate through each button
+        buttons.forEach((button) => {
+
+        // and for each one we add a 'click' listener
+        button.addEventListener('click', (e) => {
+            playerSelection = button.id
+            console.log("this is PS "+playerSelection)
+            //playerPlay()
+            let computerSelection = computerPlay()
+            console.log("this is CS " +computerSelection)
+            console.log(playRound(playerSelection,computerSelection))
+            console.log(checkWinner(lostRounds, wonRounds))
+            resetGame()
+  });
+})
+
+    function resetGame(){
+        if((wonRounds>=5)||(lostRounds>=5)){
+            tieRounds = 0
+            wonRounds = 0
+            lostRounds = 0
+        }
+        
+        tieScore.textContent =`${tieRounds}`
+        pcScore.textContent =`${lostRounds}`
+        playerScore.textContent =`${wonRounds}`
+    }
+
+    function playerPlay(){
+        // we use the .forEach method to iterate through each button
+        buttons.forEach((button) => {
+
+        // and for each one we add a 'click' listener
+        button.addEventListener('click', (e) => {
+            playerSelection = button.id
+            console.log("this is PS "+playerSelection)
+        return playerSelection 
+        });
+        });
+        }
+        
+    function computerPlay(){
+            let min = 1
+            let max = 3
+            let number = Math.floor(Math.random() * (max - min +1)) + min
+            let movement
+
+            if (number == 1) {
+                movement = "Scissors"
+            }else if (number == 2){
+                movement = "Rock"
+            }else{
+                movement = "Paper"
+            }
+            return movement
+        }    
+
+    function playRound(playerselection, computerSelection){
+
+        if((playerSelection == "Rock" && computerSelection == "Rock")
+        ||(playerSelection == "Scissors" && computerSelection == "Scissors")
+        ||(playerSelection == "Paper" && computerSelection == "Paper")){
+            tieRounds+=1
+            message =playerSelection +" Vs "+ computerSelection +". It's a draw!"
+            tieScore.textContent =`${tieRounds}`
+            results.textContent =`${message}`
+            //return message =playerSelection +" Vs "+ computerSelection +". It's a draw!"
+        } else if ((playerSelection == "Rock" && computerSelection == "Paper")
+        ||(playerSelection == "Scissors" && computerSelection == "Rock")
+        ||(playerSelection == "Paper" && computerSelection == "Scissors")){
+            lostRounds+=1
+            message = computerSelection+" beats "+ playerSelection +". You lose!"
+            pcScore.textContent =`${lostRounds}`
+            results.textContent =`${message}`
+            console.log("lost Rounds: "+lostRounds)
+            //console.log(computerSelection+" beats "+ playerSelection +". You lose!")
+            //return lostRounds
+        } else if ((playerSelection == "Rock" && computerSelection == "Scissors")
+        ||(playerSelection == "Scissors" && computerSelection == "Paper")
+        ||(playerSelection == "Paper" && computerSelection == "Rock")){
+            wonRounds+=1
+            message =playerSelection+" beats "+ computerSelection +". You win!"
+            playerScore.textContent =`${wonRounds}`
+            results.textContent =`${message}`
+            console.log("won Rounds: "+wonRounds)
+            //return message =playerSelection+" beats "+ computerSelection +". You win!"
+        }else{
+            //return message ="Ooops"
+        }
+        }   
+        
+    function checkWinner(lostRounds, wonRounds){
+        if (lostRounds === 5){
+            message ="Bad Luck!! You lose. Play again?"
+            results.textContent =`${message}`
+            //console.log("You lose the whole game")
+
+        }else if (wonRounds ===5){
+            message ="You nailed it!! You win. Play again?"
+            results.textContent =`${message}`
+            //console.log("You win the whole game")
+        }
+
+    
+    
+
+    }
+
+</script> 
+</html>    
